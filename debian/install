@@ -1,0 +1,4 @@
+etc/nginx/sites-available/mainsail	/etc/nginx/sites-available/
+etc/nginx/conf.d/*			/etc/nginx/conf.d/
+etc/systemd/system/*			/etc/systemd/system/
+var

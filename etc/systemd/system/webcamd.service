@@ -1,0 +1,13 @@
+[Unit]
+Description=Webcam Daemon with MJPG-STREAMER
+
+[Service]
+StandardOutput=append:/var/log/webcamd.log
+StandardError=append:/var/log/webcamd.log
+ExecStart=snap connect mjpg-streamer:camera
+ExecStart=mjpg-streamer
+Restart=always
+Type=forking
+
+[Install]
+WantedBy=multi-user.target

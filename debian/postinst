@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# MJPG-STREAMER
+snap install mjpg-streamer
+
+if [ /var/snap/mjpg-streamer/current/config ]; then
+	sed -i "s/^DAEMON.*/DAEMON=\"true\"/g" /var/snap/mjpg-streamer/current/config
+fi
+
+systemctl enable snap.mjpg-streamer.mjpg-streamer-service
+systemctl start snap.mjpg-streamer.mjpg-streamer-service
+
+# NGIX with 'Moonsail'
+rm -rf /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/mainsail /etc/nginx/sites-enabled/default
+
+service nginx restart
+
+#DEBHELPER#

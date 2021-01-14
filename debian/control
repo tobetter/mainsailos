@@ -1,0 +1,13 @@
+Source: mainsailos
+Section: utils
+Priority: optional
+Maintainer: Dongjin Kim <tobetter@gmail.com>
+Build-Depends: debhelper (>= 9), jq
+Standards-Version: 3.9.5
+X-Python3-Version: >= 3.7
+
+Package: mainsailos
+Architecture: any
+Depends: ${misc:Pre-Depends}, nginx, snapd, moonraker
+Description: MainsailOS
+  ...

@@ -7,6 +7,12 @@ if [ ! -f ${DEFAULT_MAINSAIL_CONFIG} ]; then
 	cat>${DEFAULT_MAINSAIL_CONFIG}<<__EOF
 {
 	"state": {
+		"general": {
+			"printername": "ODROID"
+		}
+		"dashboard": {
+			"boolWebcam": true,
+		}
 		"webcam": {
 			"url": "webcam/?action=stream"
 		}

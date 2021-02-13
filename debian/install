@@ -3,3 +3,4 @@ etc/nginx/conf.d/*			/etc/nginx/conf.d/
 etc/systemd/system/*			/etc/systemd/system/
 var
 usr
+etc

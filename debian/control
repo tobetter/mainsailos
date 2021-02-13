@@ -8,6 +8,13 @@ X-Python3-Version: >= 3.7
 
 Package: mainsailos
 Architecture: any
-Depends: ${misc:Pre-Depends}, nginx, snapd, moonraker, v4l-utils, dialog, avrdude
+Depends: ${misc:Pre-Depends},
+	nginx,
+	snapd,
+	moonraker,
+	v4l-utils,
+	dialog,
+	avrdude,
+	wireless-tools
 Description: MainsailOS
   ...

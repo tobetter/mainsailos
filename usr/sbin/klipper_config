@@ -1,0 +1,106 @@
+#!/bin/bash
+
+DEFAULT_CONFIG=/etc/klippy_config/printer.cfg
+
+do_board_select() {
+	local BOARDS=()
+	local n=1
+
+	for board in $(ls /usr/share/klipper/config/*.cfg); do
+		brd=${board##/usr/share/klipper/config/}
+		BOARDS+=($n "$brd")
+		n=$((n + 1))
+	done
+
+	CHOICE=$(dialog --clear \
+		--title "Boards" \
+		--menu "Select your 3D printer board" 20 70 15 \
+		${BOARDS[@]} 2>&1 >/dev/tty)
+	ret=$?
+
+	echo ${BOARDS[((${CHOICE} * 2 - 1))]}
+}
+
+do_serial_port() {
+	local ports=()
+	local n=1
+	for port in $(ls /dev/serial/by-id); do
+		ports+=($n ${port})
+		n=$((n + 1))
+	done
+
+	CHOICE=$(dialog --clear \
+		--title "Serial Ports" \
+		--menu "Select serial port" 20 70 15 \
+		${ports[@]} 2>&1 >/dev/tty)
+	ret=$?
+
+	echo ${ports[((${CHOICE} * 2 - 1))]}
+
+}
+
+do_drop_default_config() {
+	rm -f ${DEFAULT_CONFIG}
+	cp /usr/share/klipper/config/$1 ${DEFAULT_CONFIG}
+
+	cat>>${DEFAULT_CONFIG}<<__EOF
+[virtual_sdcard]
+path: /srv/klippy/uploads
+
+[display_status]
+
+[pause_resume]
+
+[gcode_macro PAUSE]
+rename_existing: BASE_PAUSE
+default_parameter_X: 230    #edit to your park position
+default_parameter_Y: 230    #edit to your park position
+default_parameter_Z: 10     #edit to your park position
+default_parameter_E: 1      #edit to your retract length
+gcode:
+    SAVE_GCODE_STATE NAME=PAUSE_state
+    BASE_PAUSE
+    G91
+    G1 E-{E} F2100
+    G1 Z{Z}
+    G90
+    G1 X{X} Y{Y} F6000
+
+[gcode_macro RESUME]
+rename_existing: BASE_RESUME
+default_parameter_E: 1      #edit to your retract length
+gcode:
+    G91
+    G1 E{E} F2100
+    G90
+    RESTORE_GCODE_STATE NAME=PAUSE_state MOVE=1
+    BASE_RESUME
+
+[gcode_macro CANCEL_PRINT]
+rename_existing: BASE_CANCEL_PRINT
+gcode:
+    TURN_OFF_HEATERS
+    CLEAR_PAUSE
+    SDCARD_RESET_FILE
+    BASE_CANCEL_PRINT
+__EOF
+}
+
+board=$(do_board_select)
+do_drop_default_config ${board}
+
+if grep "^serial:" ${DEFAULT_CONFIG} >/dev/null; then
+	port=$(do_serial_port)
+	sed -i "s|^serial:.*|serial: /dev/serial/by-id/${port}|g" ${DEFAULT_CONFIG}
+fi
+
+dialog --title "Klipper" \
+	--yesno "Do you want to restart Klipper service with new board configuration?" \
+	7 60
+
+if [ $? == 0 ]; then
+	sudo systemctl restart klipper
+fi
+
+echo
+echo "${DEFAULT_CONFIG} is saved."

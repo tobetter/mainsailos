@@ -35,4 +35,6 @@ systemctl start snap.mjpg-streamer.mjpg-streamer-service
 rm -rf /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/mainsail /etc/nginx/sites-enabled/default
 
+mkdir -p /srv/klippy/uploads
+
 #DEBHELPER#

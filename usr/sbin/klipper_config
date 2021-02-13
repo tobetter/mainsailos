@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DEFAULT_CONFIG=/etc/klippy_config/printer.cfg
+DEFAULT_UPLOADS=/srv/klippy/uploads
 
 do_board_select() {
 	local BOARDS=()
@@ -45,7 +46,7 @@ do_drop_default_config() {
 
 	cat>>${DEFAULT_CONFIG}<<__EOF
 [virtual_sdcard]
-path: /srv/klippy/uploads
+path: ${DEFAULT_UPLOADS}
 
 [display_status]
 

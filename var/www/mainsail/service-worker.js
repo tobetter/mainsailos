@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.4541c9139a2e69a19f4f3e9297e53a49.js"
+  "/precache-manifest.bbedb924fae785142fc182dc0830c1d3.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "mainsail"});

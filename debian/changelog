@@ -1,4 +1,4 @@
-mainsailos (1.4.0) UNRELEASED; urgency=medium
+mainsailos (1.6.0) UNRELEASED; urgency=medium
 
   [ Dongjin Kim ]
   * Package version bump to v1.0.2
@@ -7,7 +7,10 @@ mainsailos (1.4.0) UNRELEASED; urgency=medium
   [ odroid ]
   * Package version bump to v1.4.0
 
- -- odroid <tobetter@gmail.com>  Thu, 18 Mar 2021 20:19:22 +0000
+  [ Dongjin Kim ]
+  * Package version bump to v1.6.0
+
+ -- Dongjin Kim <tobetter@gmail.com>  Fri, 21 May 2021 00:10:59 +0900
 
 mainsailos (0.1) stable; urgency=medium
 
